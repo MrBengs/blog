@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -14,13 +16,15 @@ class Article
     #[ORM\Column()]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 75)]
+    #[Assert\Length(min: 2, max: 50)]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     private ?string $author = null;
 
     #[ORM\Column(length: 3000)]
+    #[Assert\Length(min: 50, max: 3000)]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
@@ -28,6 +32,11 @@ class Article
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
+
+    public function __construct()
+    {
+        $this->date = new DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {

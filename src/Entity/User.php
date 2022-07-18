@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -35,6 +37,11 @@ class User
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+
+    public function __construct()
+    {
+        $this->date_crea = new DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
